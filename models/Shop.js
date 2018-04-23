@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
-const Counter = require('./Counter');
+const Schema = mongoose.Schema;
 
-
-var Shop = mongoose.Schema({
+var Shop = new Schema({
   shopId: Number,
   shopify_domain: String, // Shopify domain without the .myshopify.com on the end.
   name: String,
