@@ -9,7 +9,6 @@ const config = {
   APP_NAME: 'ReCart',
   APP_STORE_NAME: 'ReCart',
   APP_SCOPE: 'read_products,read_orders,write_orders,read_fulfillments,write_fulfillments,read_shipping,write_shipping,read_script_tags,write_script_tags,read_themes,write_themes,read_analytics',
-  DATABASE_NAME: 'recart',
 };
 
 if (env !== 'PRODUCTION') {

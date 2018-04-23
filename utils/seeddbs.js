@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const Counter = require('../models/Counter');
 const config = require('../config');
 
-mongoose.connect(process.env.MONGODB_URI || `mongodb://giangnd:912119@dbh56.mlab.com:27567/${config.DATABASE_NAME}`);
+mongoose.connect(process.env.MONGODB_URI || config.MONGODB_URI);
 
 // Initialise the counter if it hasn't been initialised yet.
 Counter.remove({}, (error) => {

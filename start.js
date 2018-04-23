@@ -1,9 +1,11 @@
 // start.js
 const mongoose = require('mongoose');
 const throng = require('throng');
+const config = require('./config');
+
 require('dotenv').config({ path: '.env' });
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://giangnd:912119@dbh56.mlab.com:27567/recart', {
+mongoose.connect(process.env.MONGODB_URI || config.MONGODB_URI, {
   useMongoClient: true,
 });
 mongoose.Promise = require('bluebird');
