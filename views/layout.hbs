@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{{appName}}</title>
+  <link rel='stylesheet' href='{{appUrl}}/stylesheets/uptown.css' />
+  <link rel='stylesheet' href='{{appUrl}}/stylesheets/style.css' />
+  <script type="text/javascript" src="https://cdn.shopify.com/s/assets/external/app.js"></script>
+  <script type="text/javascript">
+    ShopifyApp.init({
+      apiKey: '{{apiKey}}',
+      shopOrigin: '{{shop.shopify_domain}}'
+    });
+  </script>
+</head>
+
+<body>
+
+  <main>
+    <section>
+
+      <aside class="card">
+        <ul id="sidebar">
+          <li>
+            <a href="/home">
+              <i class="icon-home"></i> Home</a>
+          </li>
+          <li>
+            <a href="/messenger">
+              <i class="icon-discount"></i> Messenger</a>
+          </li>
+          <li>
+            <a href="/campaigns">
+              <i class="icon-cart"></i> Campaigns</a>
+          </li>
+          <li>
+            <a href="/settings">
+              <i class="icon-gear"></i> Settings</a>
+          </li>
+        </ul>
+      </aside>
+
+      <article>
+        {{{body}}}
+      </article>
+
+    </section>
+  </main>
+
+</body>
+
+</html>

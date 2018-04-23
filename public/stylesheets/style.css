@@ -1,0 +1,32 @@
+body {
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+    color: #212b36;
+}
+
+#sidebar {
+    list-style: none;
+}
+
+#sidebar li a {
+    display: block;
+    line-height: 23px;
+    margin-bottom: 1.0rem;
+}
+
+#sidebar li a i {
+    margin-right: 10px;
+    float: left;
+    min-height: 2.4rem;
+    min-width: 2.4rem;
+}
+
+form label ,
+input[type="text"],
+input[type="email"],
+input[type="number"] {
+    font-size: 13px !important;
+}
