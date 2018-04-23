@@ -1,3 +1,3 @@
 module.exports = {
-  APP_URI: '',
+  APP_URI: 'http://recart.bluesails.net',
 };
