@@ -1,7 +1,9 @@
+'user strict';
+
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-var ShopSchema = new Schema({
+var ShopSchema = mongoose.Schema({
   shopId: Number,
   shopify_domain: String, // Shopify domain without the .myshopify.com on the end.
   name: String,
