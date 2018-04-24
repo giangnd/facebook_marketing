@@ -5,6 +5,12 @@ const config = require('./config');
 
 require('dotenv').config({ path: '.env' });
 
+const app = require('./app');
+app.set('port', process.env.PORT || 7777);
+const server = app.listen(app.get('port'), () => {
+  console.log(`Express running → PORT ${server.address().port}`);
+});
+
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI || config.MONGODB_URI, {
   useMongoClient: true,
@@ -27,12 +33,6 @@ mongoose.connection.on('error', (err) => {
 });
 mongoose.connection.once('open', () => {
   console.log('[MongoDB] is connected!');
-});
-
-const app = require('./app');
-app.set('port', process.env.PORT || 7777);
-const server = app.listen(app.get('port'), () => {
-  console.log(`Express running → PORT ${server.address().port}`);
 });
 
 // function start() {
