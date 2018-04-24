@@ -59,18 +59,25 @@ router.get('/callback', (req, res) => {
           res.redirect('/error');
         }
 
+        let scriptPlayload = {
+          script_tag: {
+            src: `${config.APP_URI}/assets/js/recart.js`,
+          },
+        };
+
         if (!shop.scriptId || shop.scriptId === '') {
-          shopAPI.post('/admin/script_tags.json', {
-            script_tag: {
-              event: 'onload',
-              src: `${config.APP_URI}/javascripts/recart.js`,
-            },
-          }, (err, resData, headers) => {
+          scriptPlayload.script_tag.event = 'onload';
+          shopAPI.post('/admin/script_tags.json', scriptPlayload, (err, resApi, headers) => {
             console.log('inserted script');
-            shop.scriptId = resData.script_tag.id;
-            shop.save((saveEerr) => {
-              if (saveEerr) throw saveEerr;
+            shop.scriptId = resApi.script_tag.id;
+            shop.save((saveErr) => {
+              if (saveErr) throw saveErr;
             });
+          });
+        } else {
+          scriptPlayload.script_tag.id = shop.scriptId;
+          shopAPI.put(`/admin/script_tags/${shop.scriptId}.json`, scriptPlayload, (err, resApi, headers)=>{
+            console.log('updated script');
           });
         }
 

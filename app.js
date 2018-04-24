@@ -13,10 +13,6 @@ require('dotenv').config();
 const app = express();
 
 const hbs = require('hbs');
-// const fs = require('fs');
-// hbs.registerPartial('partial', fs.readFileSync(__dirname + '/views/partial.hbs', 'utf8'));
-// hbs.registerPartials(__dirname + '/views/partials');
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
@@ -59,8 +55,9 @@ const install = require('./routes/install');
 const webhook = require('./routes/webhook');
 const proxy = require('./routes/proxy');
 const api = require('./routes/api');
-const messenger = require('./routes/messenger');
-const campaign = require('./routes/campaign');
+const messenger = require('./routes/app/messenger');
+const campaign = require('./routes/app/campaign');
+const assets = require('./routes/app/assets');
 
 app.use('/', index);
 app.use('/install', install);
@@ -69,6 +66,7 @@ app.use('/proxy', proxy);
 app.use('/api', api);
 app.use('/messenger', messenger);
 app.use('/campaigns', campaign);
+app.use('/assets', assets);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
