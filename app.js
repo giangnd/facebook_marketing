@@ -1,6 +1,6 @@
+const fs = require('fs');
 const express = require('express');
 const path = require('path');
-const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -8,32 +8,19 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const hbs = require('hbs');
-const fs = require('fs');
-
-// Routes
-const index = require('./routes/index');
-const install = require('./routes/install');
-const webhook = require('./routes/webhook');
-const proxy = require('./routes/proxy');
-const api = require('./routes/api');
-
-const messenger = require('./routes/messenger');
-const campaign = require('./routes/campaign');
 
 require('dotenv').config();
 
 const app = express();
 
 // view engine setup
-hbs.registerPartial('partial', fs.readFileSync(__dirname + '/views/partial.hbs', 'utf8'));
-hbs.registerPartials(__dirname + '/views/partials');
+// hbs.registerPartial('partial', fs.readFileSync(__dirname + '/views/partial.hbs', 'utf8'));
+// hbs.registerPartials(__dirname + '/views/partials');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.set('view options', { layout: 'layout' });
 
-// uncomment after placing your favicon in /public
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -51,6 +38,14 @@ app.use(session({
 
 app.use(express.static(path.join(__dirname, 'public')));
 // Routes
+const index = require('./routes/index');
+const install = require('./routes/install');
+const webhook = require('./routes/webhook');
+const proxy = require('./routes/proxy');
+const api = require('./routes/api');
+const messenger = require('./routes/messenger');
+const campaign = require('./routes/campaign');
+
 app.use('/', index);
 app.use('/install', install);
 app.use('/webhook', webhook);
