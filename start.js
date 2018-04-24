@@ -29,19 +29,20 @@ mongoose.connection.once('open', () => {
   console.log('[MongoDB] is connected!');
 });
 
-function start() {
-  /* You should require your models here so you don't have to initialise them all the time in
-  different controlers*/
-  require('./models/Shop');
+const app = require('./app');
+app.set('port', process.env.PORT || 7777);
+const server = app.listen(app.get('port'), () => {
+  console.log(`Express running → PORT ${server.address().port}`);
+});
 
-  const app = require('./app');
-  app.set('port', process.env.PORT || 7777);
-  const server = app.listen(app.get('port'), () => {
-    console.log(`Express running → PORT ${server.address().port}`);
-  });
-}
+// function start() {
+//   /* You should require your models here so you don't have to initialise them all the time in
+//   different controlers*/
+//   // require('./models/Shop');
+
+// }
 
 
-throng({
-  workers: process.env.WEB_CONCURRENCY || 1,
-}, start);
+// throng({
+//   workers: process.env.WEB_CONCURRENCY || 1,
+// }, start);
