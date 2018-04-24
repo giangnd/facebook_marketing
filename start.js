@@ -5,35 +5,6 @@ const config = require('./config');
 
 require('dotenv').config({ path: '.env' });
 
-const app = require('./app');
-app.set('port', process.env.PORT || 7777);
-const server = app.listen(app.get('port'), () => {
-  console.log(`Express running → PORT ${server.address().port}`);
-});
-
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || config.MONGODB_URI, {
-  useMongoClient: true,
-  server: {
-    socketOptions: {
-      connectTimeoutMS: 30000,
-      keepAlive: 1
-    }
-  },
-  replset: {
-    socketOptions: {
-      connectTimeoutMS: 30000,
-      keepAlive: 1
-    }
-  },
-});
-
-mongoose.connection.on('error', (err) => {
-  console.error(`🚫 Database Error 🚫  → ${err}`);
-});
-mongoose.connection.once('open', () => {
-  console.log('[MongoDB] is connected!');
-});
 
 // function start() {
 //   /* You should require your models here so you don't have to initialise them all the time in

@@ -7,8 +7,8 @@
     "seeddbs": "node ./utils/seeddbs.js",
     "debug": "DEBUG=recart:* npm start",
     "debugwatch": "DEBUG=recart:* npm watch",
-    "watch": "nodemon ./start.js",
-    "start": "node ./start.js"
+    "watch": "nodemon ./app.js",
+    "start": "node ./app.js"
   },
   "dependencies": {
     "body-parser": "~1.16.0",

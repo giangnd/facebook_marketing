@@ -8,6 +8,7 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const hbs = require('hbs');
+const config = require('./config');
 
 require('dotenv').config();
 
@@ -37,6 +38,32 @@ app.use(session({
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+mongoose.Promise = global.Promise;
+mongoose.connect(process.env.MONGODB_URI || config.MONGODB_URI, {
+  useMongoClient: true,
+  server: {
+    socketOptions: {
+      connectTimeoutMS: 30000,
+      keepAlive: 1
+    }
+  },
+  replset: {
+    socketOptions: {
+      connectTimeoutMS: 30000,
+      keepAlive: 1
+    }
+  },
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error(`🚫 Database Error 🚫  → ${err}`);
+});
+mongoose.connection.once('open', () => {
+  console.log('[MongoDB] is connected!');
+});
+
+
 // Routes
 const index = require('./routes/index');
 const install = require('./routes/install');
@@ -70,6 +97,11 @@ app.use((err, req, res) => {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.set('port', process.env.PORT || 7777);
+const server = app.listen(app.get('port'), () => {
+  console.log(`Express running → PORT ${server.address().port}`);
 });
 
 module.exports = app;
