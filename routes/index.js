@@ -8,6 +8,7 @@ const router = express.Router();
 /* GET home page. */
 router.get('/', (req, res, next) => {
   const query = Object.keys(req.query).map((key) => `${key}=${req.query[key]}`).join('&');
+  
   if (req.query.shop) {
     Shop.findOne({ shopify_domain: req.query.shop, isActive: true }, (err, shop) => {
       if (!shop) {

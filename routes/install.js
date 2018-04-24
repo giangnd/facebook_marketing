@@ -3,7 +3,6 @@ const Shop = require('../models/Shop');
 const Shopify = require('shopify-node-api');
 const config = require('../config');
 const generateNonce = require('../helpers').generateNonce;
-const buildWebhook = require('../helpers').buildWebhook;
 
 const router = express.Router();
 
@@ -59,11 +58,23 @@ router.get('/callback', (req, res) => {
           console.log('Cannot save shop: ', saveError);
           res.redirect('/error');
         }
-        if (config.APP_STORE_NAME) {
-          res.redirect(`https://${shop.shopify_domain}/admin/apps/${config.APP_STORE_NAME}`);
-        } else {
-          res.redirect(`https://${shop.shopify_domain}/admin/apps`);
+
+        if (!shop.scriptId || shop.scriptId === '') {
+          shopAPI.post('/admin/script_tags.json', {
+            script_tag: {
+              event: 'onload',
+              src: `${config.APP_URI}/javascripts/recart.js`,
+            },
+          }, (err, resData, headers) => {
+            console.log('inserted script');
+            shop.scriptId = resData.script_tag.id;
+            shop.save((saveEerr) => {
+              if (saveEerr) throw saveEerr;
+            });
+          });
         }
+
+        res.redirect(`https://${shop.shopify_domain}/admin/apps`);
       });
     });
   });

@@ -1,4 +1,3 @@
-const fs = require('fs');
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
@@ -7,19 +6,21 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
-const hbs = require('hbs');
 const config = require('./config');
 
 require('dotenv').config();
 
 const app = express();
 
-// view engine setup
+const hbs = require('hbs');
+// const fs = require('fs');
 // hbs.registerPartial('partial', fs.readFileSync(__dirname + '/views/partial.hbs', 'utf8'));
 // hbs.registerPartials(__dirname + '/views/partials');
 
+// view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
+app.set('view engine', 'html');
+app.engine('html', hbs.__express);
 app.set('view options', { layout: 'layout' });
 
 app.use(logger('dev'));
@@ -39,30 +40,18 @@ app.use(session({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI || config.MONGODB_URI, {
   useMongoClient: true,
-  server: {
-    socketOptions: {
-      connectTimeoutMS: 30000,
-      keepAlive: 1
-    }
-  },
-  replset: {
-    socketOptions: {
-      connectTimeoutMS: 30000,
-      keepAlive: 1
-    }
-  },
 });
+
+mongoose.Promise = require('bluebird');
 
 mongoose.connection.on('error', (err) => {
   console.error(`🚫 Database Error 🚫  → ${err}`);
 });
 mongoose.connection.once('open', () => {
-  console.log('[MongoDB] is connected!');
+  console.log('MongoDB is connected!');
 });
-
 
 // Routes
 const index = require('./routes/index');
