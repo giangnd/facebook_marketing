@@ -5,13 +5,28 @@ const config = require('./config');
 
 require('dotenv').config({ path: '.env' });
 
+mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI || config.MONGODB_URI, {
   useMongoClient: true,
+  server: {
+    socketOptions: {
+      connectTimeoutMS: 30000,
+      keepAlive: 1
+    }
+  },
+  replset: {
+    socketOptions: {
+      connectTimeoutMS: 30000,
+      keepAlive: 1
+    }
+  },
 });
-mongoose.Promise = require('bluebird');
 
 mongoose.connection.on('error', (err) => {
   console.error(`🚫 Database Error 🚫  → ${err}`);
+});
+mongoose.connection.once('open', () => {
+  console.log('[MongoDB] is connected!');
 });
 
 function start() {
