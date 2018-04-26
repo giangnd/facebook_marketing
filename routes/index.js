@@ -8,14 +8,14 @@ const router = express.Router();
 /* GET home page. */
 router.get('/', (req, res, next) => {
   const query = Object.keys(req.query).map((key) => `${key}=${req.query[key]}`).join('&');
-  
+
   if (req.query.shop) {
     Shop.findOne({ shopify_domain: req.query.shop, isActive: true }, (err, shop) => {
       if (!shop) {
         return res.redirect(`/install/?${query}`);
       }
       if (verifyOAuth(req.query)) {
-        return res.render('app/app', { apiKey: config.SHOPIFY_API_KEY, appName: config.APP_NAME, appUrl: config.APP_URI, shop });
+        return res.render('app/app', { apiKey: config.SHOPIFY_API_KEY, appName: config.APP_NAME, appUrl: config.APP_URI, shop: shop.shopify_domain });
       }
       return res.render('index', { title: req.query.shop });
     });
@@ -26,8 +26,9 @@ router.get('/', (req, res, next) => {
 
 router.get('/error', (req, res) => res.render('error', { message: 'Something went wrong!' }));
 
-router.get('/home', (req, res, next) => res.render('app/app', { appName: config.APP_NAME }));
-
-router.get('/settings', (req, res, next) => res.render('app/settings'));
+router.get('/home', (req, res, next) => {
+  const shop = req.query.shop;
+  res.render('app/app', { appName: config.APP_NAME, shop });
+});
 
 module.exports = router;

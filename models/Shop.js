@@ -13,8 +13,6 @@ var ShopSchema = mongoose.Schema({
   accessToken: String,
   isActive: { type: Boolean, default: false },
   scriptId: Number,
-  fbAppId: String,
-  fbPageId: String,
 });
 
 module.exports = mongoose.model('Shop', ShopSchema);

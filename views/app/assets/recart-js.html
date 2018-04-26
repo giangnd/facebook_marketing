@@ -1,6 +1,6 @@
 'use strict';
 
-var recartCss = ".recart-modal{position:fixed;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.5);opacity:0;visibility:hidden;transform:scale(1.1);transition:visibility 0s linear .25s,opacity .25s 0s,transform .25s}.recart-modal-content{text-align:center;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background-color:#4267B2;color:#fff;padding:1rem 1.5rem;width:600px;height:600px;border-radius:50%}.recart-modal-content p{color:#fff}.recart-modal-content button{font-size:16px;color:#FFF;font-weight:700;padding:7px 20px;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;background-color:#fbb040;border:none}.recart-close-button{position:absolute;right:0;width:1.5rem;line-height:1.5rem;text-align:center;cursor:pointer;border-radius:.25rem;font-size:30px}.recart-show-modal{opacity:1;visibility:visible;transform:scale(1);transition:visibility 0s linear 0s,opacity .25s 0s,transform .25s;animation-name:fadeInOpacity;animation-iteration-count:1;animation-timing-function:ease-in;animation-duration:0.5s}@keyframes fadeInOpacity{0%{opacity:0}100%{opacity:1}}";
+var recartCss = ".recart-modal{position:fixed;left:0;top:0;z-index:999999;width:100%;height:100%;background-color:rgba(0,0,0,.5);opacity:0;visibility:hidden;transform:scale(1.1);transition:visibility 0s linear .25s,opacity .25s 0s,transform .25s}.recart-modal-content{text-align:center;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background-color:#4267B2;color:#fff;padding:1rem 1.5rem;width:600px;height:600px;border-radius:50%}.recart-modal-content p{color:#fff}.recart-modal-content button{font-size:16px;color:#FFF;font-weight:700;padding:7px 20px;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;background-color:#fbb040;border:none}.recart-close-button{position:absolute;right:0;width:1.5rem;line-height:1.5rem;text-align:center;cursor:pointer;border-radius:.25rem;font-size:30px}.recart-show-modal{opacity:1;visibility:visible;transform:scale(1);transition:visibility 0s linear 0s,opacity .25s 0s,transform .25s;animation-name:fadeInOpacity;animation-iteration-count:1;animation-timing-function:ease-in;animation-duration:0.5s}@keyframes fadeInOpacity{0%{opacity:0}100%{opacity:1}}";
 inlineCss(recartCss);
 
 function inlineCss(recartCss) {
@@ -15,18 +15,30 @@ function popUpForm() {
     html += '<span class="recart-close-button" onclick="recartClickClose()">&times;</span>';
     html += '<p class="p1" style="text-transform: uppercase;font-size: 28px;margin-bottom: 15px;margin-top:100px">Because You Are Special!</p>';
     html += '<div class="hide_on_submit">';
-    html += '<p class="p2" style="text-transform: uppercase;font-size: 50px;line-height: 50px;font-weight: 700;margin-bottom: 20px">15% Discount</p>';
+    html += '<p class="p2" style="text-transform: uppercase;font-size: 50px;line-height: 50px;font-weight: 700;margin-bottom: 20px">{{discountWidget.title}}</p>';
     html += '<p class="p3" style="text-transform: uppercase;font-size: 20px;font-weight: bold;margin-bottom: 15px">On Your First Buy</p>';
     html += '<p class="p4" style="margin-bottom:10px">Let`s activate your discount code</p>';
     html += '<p class="p5" style="font-weight: 700;">Now!</p>';
     html += '<div class="fbm_checkbox_content"></div>';
-    html += '<button type="button" class="fbm_submit_button" onclick="recartPopupSubmit()">';
-    html += 'Inbox My Discount Code Now';
-    html += '</button>';
+    html += '<button type="button" class="fbm_submit_button" onclick="recartPopupSubmit()">{{discountWidget.button_text}}</button>';
     html += '<p style="font-size:12px;cursor:pointer;text-decoration:underline;margin-top:20px;" onclick="recartClickClose()">No thanks. I`d rather pay full price.</p>';
     html += '</div>';
     html += '<div class="recart-popup-message"></div>';
     html += '</div>';
+    html += '</div>';
+
+    return html;
+}
+
+function discountWidgetForm() {
+    var html = '<div class="recart-discount-widget">';
+    html += '<h2 class="recart-messenger-widget__title">Get 15% off from your order</h2>';
+    html += '<h3 class="recart-messenger-widget__subtitle">Reveal discount by subscribing to our Messenger list:</h3>';
+    html += '<div class="recart-messenger-widget-box fbm_checkbox_content"></div>';
+    html += '<button type="button">';
+    html += '<span class="recart-messenger-widget__button-discount-text">Get Your Discount</span>';
+    html += '<span class="recart-messenger-widget__button-copy-text" style="display:none">Copy the code</span>';
+    html += '</button>';
     html += '</div>';
 
     return html;
@@ -91,24 +103,15 @@ function uuidv4() {
     });
 }
 
-var renderMsgButton = false;
+function getTemplateName() {
+    var classTemplate = $('body').attr('class');
+    classTemplate = classTemplate.split('-');
+    return classTemplate[1];
+}
+
 const userRef = uuidv4();
 const recartAppId = '{{fbAppId}}';
 const recartPageId = '{{fbPageId}}';
-
-$(document).ready(function () {
-    $('body').append(popUpForm());
-
-    if (!_getCookie("___recartClosedPopup")) {
-        setTimeout(function () {
-            recartOpenPopup();
-        }, 2000);
-    }
-
-    if (!_getCookie("___recartUserSubscribed")) {
-        $('.fbm_checkbox_content').html('<div class="fb-messenger-checkbox" origin="' + window.location.origin + '" page_id="' + recartPageId + '" messenger_app_id="' + recartAppId + '" user_ref="' + userRef + '" prechecked="true" allow_login="true" size="small" skin="dark" center_align="true"></div>');
-    }
-});
 
 window.fbAsyncInit = function () {
     FB.init({
@@ -124,8 +127,6 @@ window.fbAsyncInit = function () {
 
         if (e.event == 'rendered') {
             console.log("Plugin was rendered");
-            renderMsgButton = true;
-            recartLinkShowPopup();
         } else if (e.event == 'checkbox') {
             console.log("Checkbox state: " + e.state);
         } else if (e.event == 'not_you') {
@@ -144,10 +145,41 @@ window.fbAsyncInit = function () {
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-function recartLinkShowPopup() {
-    if (renderMsgButton) {
-        $('nav ul li:last').clone().appendTo('nav ul').find('a').addClass('recartLinkOpenPopup').text('Get 15% discount NOW!').attr({ onclick: 'return recartOpenPopup()', href: '' });
+$(document).ready(function () {
+    if (!_getCookie("___recartUserSubscribed")) {
+        var template = getTemplateName();
+        
+        if (template === 'index' || template === 'collection') {
+            recartLinkShowPopup();
+
+            $('body').append(popUpForm());
+            messengerPluginBox('.recart-modal .fbm_checkbox_content', 'dark');
+            if (!_getCookie("___recartClosedPopup")) {
+                setTimeout(function () {
+                    recartOpenPopup();
+                }, 30000);
+            }
+        }
+
+        if (template === 'product') {
+            $('.template-product #AddToCart').parent().append(discountWidgetForm());
+            messengerPluginBox('.recart-discount-widget .fbm_checkbox_content', 'light');
+        }
     }
+});
+
+function messengerPluginBox(className, skin) {
+    $(className).html('<div class="fb-messenger-checkbox" origin="' + window.location.origin + '" page_id="' + recartPageId + '" messenger_app_id="' + recartAppId + '" user_ref="' + userRef + '" prechecked="true" allow_login="true" size="small" skin="' + skin + '" center_align="true"></div>');
+}
+
+function recartLinkShowPopup() {
+    $('nav ul li:last')
+        .clone()
+        .appendTo('nav ul')
+        .find('a')
+        .addClass('recartLinkOpenPopup')
+        .text('{{discountWidget.menu_text}}')
+        .attr({ onclick: 'return recartOpenPopup()', href: '' });
 }
 
 function recartRemoveLinkPopup() {
@@ -170,10 +202,10 @@ function recartPopupSubmit() {
 }
 
 function recartSendAjax() {
-    var subscribedMessage = "Your discount code has been sent to your FB messenger! Get it and enjoy saving shopping now!";
+    var subscribedMessage = "{{discountWidget.subscribed_text}}";
     //send ajax
     $.ajax({
-        url: "https://re-cart.herokuapp.com/discount",
+        url: "{{appUrl}}/api/fb/subscribe?shop={{shop}}",
         type: "POST",
         data: {
             user_ref: userRef

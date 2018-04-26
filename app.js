@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -11,6 +12,7 @@ const config = require('./config');
 require('dotenv').config();
 
 const app = express();
+app.use(cors());
 
 const hbs = require('hbs');
 // view engine setup
@@ -58,6 +60,7 @@ const api = require('./routes/api');
 const messenger = require('./routes/app/messenger');
 const campaign = require('./routes/app/campaign');
 const assets = require('./routes/app/assets');
+const setting = require('./routes/app/setting');
 
 app.use('/', index);
 app.use('/install', install);
@@ -67,6 +70,7 @@ app.use('/api', api);
 app.use('/messenger', messenger);
 app.use('/campaigns', campaign);
 app.use('/assets', assets);
+app.use('/settings', setting);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

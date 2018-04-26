@@ -1,3 +1,21 @@
 <div class="card">
     <h1>Settings</h1>
+
+    <form action="/settings/?shop={{shop}}" method="post">
+        <div class="row">
+            <label>Facebook App ID</label>
+            <input type="text" name="fbAppId" value="{{setting.fbAppId}}" />
+        </div>
+        <div class="row">
+            <label>Facebook Page ID</label>
+            <input type="text" name="fbPageId" value="{{setting.fbPageId}}" />
+        </div>
+        <div class="row">
+            <label>Facebook Page Access Token</label>
+            <input type="text" name="fbPageAccessToken" value="{{setting.fbPageAccessToken}}" />
+        </div>
+        <div class="row">
+            <button type="submit">Save</button>
+        </div>
+    </form>
 </div>

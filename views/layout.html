@@ -13,7 +13,7 @@
   <script type="text/javascript">
     ShopifyApp.init({
       apiKey: '{{apiKey}}',
-      shopOrigin: '{{shop.shopify_domain}}'
+      shopOrigin: '{{shop}}'
     });
   </script>
 </head>
@@ -26,19 +26,19 @@
       <aside class="card">
         <ul id="sidebar">
           <li>
-            <a href="/home">
+            <a href="/home?shop={{shop}}">
               <i class="icon-home"></i> Home</a>
           </li>
           <li>
-            <a href="/messenger">
+            <a href="/messenger?shop={{shop}}">
               <i class="icon-discount"></i> Messenger</a>
           </li>
           <li>
-            <a href="/campaigns">
+            <a href="/campaigns?shop={{shop}}">
               <i class="icon-cart"></i> Campaigns</a>
           </li>
           <li>
-            <a href="/settings">
+            <a href="/settings?shop={{shop}}">
               <i class="icon-gear"></i> Settings</a>
           </li>
         </ul>
