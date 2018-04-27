@@ -1,56 +1,60 @@
-<div class="card">
-    <h1>Messenger</h1>
+<div class="card has-sections">
+    <div class="card-section">
+        <h1>{{subscribeCount}} Subscribers</h1>
+    </div>
+    <hr/>
+    <div class="card-section">
+        <h5>Discount Popup</h5>
 
-    <h5>Discount Popup</h5>
-
-    <form action="/messenger/discount?shop={{shop}}" method="post">
-        <div class="row">
-            <label>Title</label>
-            <input type="text" name="title" value="{{discountWidget.title}}" placeholder="15% Discount" />
-        </div>
-        <div class="row">
-            <label>Subscribed text</label>
-            <input type="text" name="subscribed_text" value="{{discountWidget.subscribed_text}}" placeholder="Your discount code has been sent to your FB messenger! Get it and enjoy saving shopping now!">
-        </div>
-        <div class="row">
-            <label>Button text</label>
-            <input type="text" name="button_text" value="{{discountWidget.button_text}}" placeholder="Inbox My Discount Code Now" />
-        </div>
-        <div class="row">
-            <label>Discount message</label>
-            <input type="text" name="discount_message" value="{{discountWidget.discount_message}}" placeholder="We congrats you on activating your discount! Enter code SIGNUP15 at checkout stage to save 15% off your first purchase Enjoy saving shopping NOW!">
-        </div>
-        <div class="row">
-            <label>Menu text</label>
-            <input type="text" name="menu_text" value="{{discountWidget.menu_text}}" placeholder="Get 15% discount NOW!">
-        </div>
-        <div class="row">
-            <button type="submit">Save</button>
-        </div>
-    </form>
-
-    <p>&nbsp;</p>
-
-    <h5>Add To Cart Widget</h5>
-    <form action="/messenger/addtocart?shop={{shop}}" method="post">
-        <div class="row">
-            <label>Title</label>
-            <input type="text" name="title" value="{{addToCartWidget.title}}" placeholder="Get 15% off from your order" />
-        </div>
-        <div class="row">
-            <label>Discount text</label>
-            <input type="text" name="discount_text" value="{{addToCartWidget.discount_text}}" placeholder="Your discount code:" />
-        </div>
-        <div class="row">
-            <label>Discount code (Create it in Shopify Admin - Discounts)</label>
-            <input type="text" name="discount_code" value="{{addToCartWidget.discount_code}}" placeholder="SIGNUP15" />
-        </div>
-        <div class="row">
-            <label>Button text</label>
-            <input type="text" name="button_text" value="{{addToCartWidget.button_text}}" placeholder="Get Your Discount" />
-        </div>
-        <div class="row">
-            <button type="submit">Save</button>
-        </div>
-    </form>
+        <form action="/messenger/discount?shop={{shop}}" method="post">
+            <div class="row">
+                <label>Title</label>
+                <input type="text" name="title" value="{{discountWidget.title}}" placeholder="15% Discount" />
+            </div>
+            <div class="row">
+                <label>Subscribed text</label>
+                <input type="text" name="subscribed_text" value="{{discountWidget.subscribed_text}}" placeholder="Your discount code has been sent to your FB messenger! Get it and enjoy saving shopping now!">
+            </div>
+            <div class="row">
+                <label>Button text</label>
+                <input type="text" name="button_text" value="{{discountWidget.button_text}}" placeholder="Inbox My Discount Code Now" />
+            </div>
+            <div class="row">
+                <label>Discount message</label>
+                <input type="text" name="discount_message" value="{{discountWidget.discount_message}}" placeholder="We congrats you on activating your discount! Enter code SIGNUP15 at checkout stage to save 15% off your first purchase Enjoy saving shopping NOW!">
+            </div>
+            <div class="row">
+                <label>Menu text</label>
+                <input type="text" name="menu_text" value="{{discountWidget.menu_text}}" placeholder="Get 15% discount NOW!">
+            </div>
+            <div class="row">
+                <button type="submit">Save</button>
+            </div>
+        </form>
+    </div>
+    <hr/>
+    <div class="card-section">
+        <h5>Add To Cart Widget</h5>
+        <form action="/messenger/addtocart?shop={{shop}}" method="post">
+            <div class="row">
+                <label>Title</label>
+                <input type="text" name="title" value="{{addToCartWidget.title}}" placeholder="Get 15% off from your order" />
+            </div>
+            <div class="row">
+                <label>Discount text</label>
+                <input type="text" name="discount_text" value="{{addToCartWidget.discount_text}}" placeholder="Your discount code:" />
+            </div>
+            <div class="row">
+                <label>Discount code (Create it in Shopify Admin - Discounts)</label>
+                <input type="text" name="discount_code" value="{{addToCartWidget.discount_code}}" placeholder="SIGNUP15" />
+            </div>
+            <div class="row">
+                <label>Button text</label>
+                <input type="text" name="button_text" value="{{addToCartWidget.button_text}}" placeholder="Get Your Discount" />
+            </div>
+            <div class="row">
+                <button type="submit">Save</button>
+            </div>
+        </form>
+    </div>
 </div>

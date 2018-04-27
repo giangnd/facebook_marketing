@@ -61,6 +61,7 @@ const messenger = require('./routes/app/messenger');
 const campaign = require('./routes/app/campaign');
 const assets = require('./routes/app/assets');
 const setting = require('./routes/app/setting');
+const cart = require('./routes/app/cart');
 
 app.use('/', index);
 app.use('/install', install);
@@ -71,6 +72,7 @@ app.use('/messenger', messenger);
 app.use('/campaigns', campaign);
 app.use('/assets', assets);
 app.use('/settings', setting);
+app.use('/cart', cart);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

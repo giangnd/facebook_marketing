@@ -1,4 +1,5 @@
 const Widget = require('../models/Widget');
+const Subscribe = require('../models/Subscribe');
 const Promise = require('bluebird');
 
 function defineWidget(shop) {
@@ -34,4 +35,14 @@ function defineWidget(shop) {
     });
 }
 
+function getSubscribes(shop) {
+    return new Promise((resolve, reject) => {
+        const query = Subscribe.find({ shopify_domain: shop }).exec();
+        query.then((response) => {
+            resolve(response);
+        });
+    });
+}
+
 exports.defineWidget = defineWidget;
+exports.getSubscribes = getSubscribes;

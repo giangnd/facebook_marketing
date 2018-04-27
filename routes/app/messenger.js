@@ -1,3 +1,4 @@
+const Promise = require('bluebird');
 const express = require('express');
 const config = require('../../config');
 const router = express.Router();
@@ -6,13 +7,17 @@ const messengerController = require('../../controllers/messenger');
 
 router.get('/', (req, res, next) => {
     const shop = req.query.shop;
-    messengerController.defineWidget(shop).then(data => {
+    Promise.all([
+        messengerController.defineWidget(shop),
+        messengerController.getSubscribes(shop),
+    ]).then(data => {
         res.render('app/messenger/dashboard', {
-            discountWidget: data.discountWidget,
-            addToCartWidget: data.addToCartWidget,
+            discountWidget: data[0].discountWidget,
+            addToCartWidget: data[0].addToCartWidget,
+            subscribeCount: data[1] ? Object.keys(data[1]).length : 0,
             shop,
         });
-    }, err => next(err));
+    }).catch(err => next(err));
 });
 
 router.post('/discount', (req, res) => {
