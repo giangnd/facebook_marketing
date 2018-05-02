@@ -7,7 +7,7 @@ function defineSetting(shop) {
 
         const query = Setting.findOne({ shopify_domain: shop }).exec();
         query.then((response) => {
-            const setting = response;
+            let setting = response;
             if (!setting || !setting.fbAppId) {
                 setting.fbAppId = fbAppId;
             }
