@@ -47,15 +47,12 @@ router.get('/callback', (req, res) => {
     });
     shopAPI.exchange_temporary_token(params, (error, data) => {
       if (error) {
-        console.log(error);
         res.redirect('/error');
       }
-      console.log(data);
       shop.accessToken = data.access_token;
       shop.isActive = true;
       shop.save((saveError) => {
         if (saveError) {
-          console.log('Cannot save shop: ', saveError);
           res.redirect('/error');
         }
 
@@ -76,12 +73,19 @@ router.get('/callback', (req, res) => {
           });
         } else {
           scriptPlayload.script_tag.id = shop.scriptId;
-          shopAPI.put(`/admin/script_tags/${shop.scriptId}.json`, scriptPlayload, (err, resApi, headers)=>{
+          shopAPI.put(`/admin/script_tags/${shop.scriptId}.json`, scriptPlayload, (err, resApi, headers) => {
             console.log('updated script');
           });
         }
 
-        res.redirect(`https://${shop.shopify_domain}/admin/apps`);
+        shopAPI.post('/admin/webhooks.json', {
+          webhook: {
+            topic: 'app/uninstalled',
+            address: `${config.APP_URI}/uninstall?shop=${shop.shopify_domain}`,
+            format: 'json'
+          }
+        }, (err, body) => res.redirect(`https://${shop.shopify_domain}/admin/apps`));
+
       });
     });
   });

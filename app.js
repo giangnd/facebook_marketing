@@ -54,6 +54,7 @@ mongoose.connection.once('open', () => {
 // Routes
 const index = require('./routes/index');
 const install = require('./routes/install');
+const uninstall = require('./routes/uninstall');
 const webhook = require('./routes/webhook');
 const proxy = require('./routes/proxy');
 const api = require('./routes/api');
@@ -65,6 +66,7 @@ const cart = require('./routes/app/cart');
 
 app.use('/', index);
 app.use('/install', install);
+app.use('/uninstall', uninstall);
 app.use('/webhook', webhook);
 app.use('/proxy', proxy);
 app.use('/api', api);
